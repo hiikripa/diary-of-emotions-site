@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diary of Emotions | Gift Shop</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#fff7fa;
+ color:#38232d;
+}
+header{
+ background:#7b294d;
+ color:white;
+ text-align:center;
+ padding:25px 12px;
+}
+header h1{margin:0;font-size:27px}
+header p{margin:8px 0 0}
+.hero{
+ text-align:center;
+ padding:35px 15px;
+ background:#f8dce7;
+}
+.hero h2{font-size:25px}
+.products{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+ padding:15px;
+}
+.product{
+ background:white;
+ border-radius:12px;
+ padding:12px;
+ text-align:center;
+ box-shadow:0 2px 9px #0001;
+}
+.product .emoji{font-size:48px}
+.product h3{font-size:16px}
+.price{font-weight:bold;color:#9b315e}
+button{
+ background:#8b3158;
+ color:white;
+ border:0;
+ padding:11px 14px;
+ border-radius:8px;
+ cursor:pointer;
+}
+.cart{
+ background:white;
+ margin:15px;
+ padding:18px;
+ border-radius:12px;
+}
+.cart h2{color:#8b3158}
+footer{
+ text-align:center;
+ padding:20px;
+ background:#7b294d;
+ color:white;
+}
+@media(min-width:650px){
+ .products{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Diary of Emotions 🌸</h1>
+<p>Every Gift Tells a Story</p>
+</header>
+
+<section class="hero">
+<h2>Make Every Moment Special ❤️</h2>
+<p>Beautiful Handmade Gift Hampers</p>
+<p>Delivery Across India 🚚</p>
+</section>
+
+<h2 style="text-align:center">Our Collection</h2>
+
+<section class="products">
+<div class="product">
+<div class="emoji">🎁</div>
+<h3>Birthday Hamper</h3>
+<p class="price">₹499</p>
+<button onclick="add('Birthday Hamper',499)">Add to Cart</button>
+</div>
+
+<div class="product">
+<div class="emoji">🍫</div>
+<h3>Chocolate Hamper</h3>
+<p class="price">₹499</p>
+<button onclick="add('Chocolate Hamper',499)">Add to Cart</button>
+</div>
+
+<div class="product">
+<div class="emoji">💝</div>
+<h3>Anniversary Hamper</h3>
+<p class="price">₹999</p>
+<button onclick="add('Anniversary Hamper',999)">Add to Cart</button>
+</div>
+
+<div class="product">
+<div class="emoji">🌷</div>
+<h3>Custom Gift Box</h3>
+<p class="price">₹799</p>
+<button onclick="add('Custom Gift Box',799)">Add to Cart</button>
+</div>
+</section>
+
+<section class="cart">
+<h2>🛒 Your Cart</h2>
+<div id="items">Your cart is empty.</div>
+<h3 id="total">Total: ₹0</h
