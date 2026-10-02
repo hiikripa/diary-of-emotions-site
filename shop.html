@@ -69,7 +69,55 @@ footer{
 }
 </style>
 </head>
+<script>
+let cart = [];
 
+function add(name, price) {
+  let item = cart.find(p => p.name === name);
+
+  if (item) {
+    item.qty++;
+  } else {
+    cart.push({name, price, qty: 1});
+  }
+
+  showCart();
+}
+
+function showCart() {
+  let box = document.getElementById("items");
+  let total = 0;
+
+  if (cart.length === 0) {
+    box.innerHTML = "Your cart is empty";
+  } else {
+    box.innerHTML = cart.map((item, i) => {
+      total += item.price * item.qty;
+      return `
+        <p>
+          ${item.name} × ${item.qty}
+          <button onclick="changeQty(${i},-1)">−</button>
+          <button onclick="changeQty(${i},1)">+</button>
+          ₹${item.price * item.qty}
+        </p>
+      `;
+    }).join("");
+  }
+
+  document.getElementById("total").innerText =
+    "Total: ₹" + total;
+}
+
+function changeQty(i, amount) {
+  cart[i].qty += amount;
+
+  if (cart[i].qty <= 0) {
+    cart.splice(i, 1);
+  }
+
+  showCart();
+}
+</script>
 <body>
 
 <header>
