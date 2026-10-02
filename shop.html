@@ -167,3 +167,30 @@ function changeQty(i, amount) {
 <h2>🛒 Your Cart</h2>
 <div id="items">Your cart is empty.</div>
 <h3 id="total">Total: ₹0</h
+                         </section>
+
+<section class="cart">
+<h2>Customer Checkout 🛍️</h2>
+
+<form onsubmit="event.preventDefault(); alert('Checkout form ready!');">
+
+<p>Full Name</p>
+<input type="text" placeholder="Enter your name" required>
+
+<p>Mobile Number</p>
+<input type="tel" placeholder="10 digit mobile number" pattern="[0-9]{10}" required>
+
+<p>Full Delivery Address</p>
+<textarea placeholder="House no, Street, City, State" required></textarea>
+
+<p>PIN Code</p>
+<input type="text" placeholder="6 digit PIN code" pattern="[0-9]{6}" required>
+
+<br><br>
+<button type="submit">Continue to Checkout</button>
+
+</form>
+</section>
+
+</body>
+</html>
