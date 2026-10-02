@@ -4,504 +4,320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Diary of Emotions | Luxury Gift Hampers</title>
+<title>Diary of Emotions | Gift Hampers</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  scroll-behavior: smooth;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#fff8fa;
+color:#44232f;
 }
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff7fa;
-  color: #38232d;
+header{
+background:#7b263f;
+color:white;
+padding:22px 15px;
+text-align:center;
 }
-
-header {
-  background: #7b294d;
-  color: white;
-  text-align: center;
-  padding: 28px 12px;
+header h1{margin:0;font-family:Georgia,serif;font-size:30px}
+header p{margin:8px 0 0;font-size:14px}
+nav{
+position:sticky;
+top:0;
+z-index:10;
+background:#fff;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:22px;
+padding:15px 10px;
+box-shadow:0 2px 8px #00000012;
 }
-
-header h1 {
-  margin: 0;
-  font-size: 28px;
+nav a{
+color:#7b263f;
+text-decoration:none;
+font-weight:bold;
+font-size:14px;
 }
-
-header p {
-  margin-bottom: 0;
+nav a:hover{color:#c45d7b}
+.hero{
+text-align:center;
+padding:55px 18px;
+background:#f8e3e9;
 }
-
-nav {
-  background: #fff0f3;
-  padding: 16px 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  flex-wrap: wrap;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px #0001;
+.hero h2{font-family:Georgia,serif;font-size:32px;margin:0 0 12px}
+.hero p{line-height:1.6}
+.section{padding:35px 18px;max-width:1100px;margin:auto}
+.section h2{
+text-align:center;
+font-family:Georgia,serif;
+color:#7b263f;
+margin-bottom:25px;
 }
-
-nav a {
-  color: #7b294d;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 15px;
-  padding: 8px;
+.products{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:18px;
 }
-
-nav a:hover {
-  color: #c04e7a;
+.product{
+background:white;
+border-radius:14px;
+padding:20px 15px;
+text-align:center;
+box-shadow:0 3px 14px #0000000d;
+border:1px solid #f3dce3;
 }
-
-.hero {
-  text-align: center;
-  padding: 55px 15px;
-  background: #f8dce7;
+.product .emoji{font-size:48px}
+.product h3{font-size:18px;margin:12px 0 8px}
+.price{font-size:20px;font-weight:bold;color:#a33356}
+button{
+background:#7b263f;
+color:white;
+border:0;
+border-radius:7px;
+padding:12px 18px;
+font-weight:bold;
+cursor:pointer;
 }
-
-.hero h2 {
-  font-size: 30px;
-  color: #7b294d;
+button:hover{background:#a33356}
+.cartbox,.checkoutbox{
+background:white;
+padding:22px;
+border-radius:12px;
+border:1px solid #f0d9e1;
+margin-bottom:22px;
 }
-
-.hero p {
-  font-size: 16px;
+.cart-row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:10px 0;
+border-bottom:1px solid #f1e4e8;
 }
-
-.section-title {
-  text-align: center;
-  color: #7b294d;
-  margin: 35px 10px 20px;
+.total{
+font-size:20px;
+font-weight:bold;
+text-align:right;
+margin:18px 0;
 }
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  padding: 18px;
-  max-width: 1200px;
-  margin: auto;
+form{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:13px;
 }
-
-.product {
-  background: white;
-  border-radius: 14px;
-  padding: 20px 12px;
-  text-align: center;
-  box-shadow: 0 3px 12px #0001;
+input,textarea,select{
+width:100%;
+padding:12px;
+border:1px solid #d9bdc7;
+border-radius:6px;
+font:inherit;
+background:white;
 }
-
-.product .emoji {
-  font-size: 55px;
+textarea{grid-column:1/-1;min-height:80px}
+.full{grid-column:1/-1}
+.note{font-size:13px;color:#76515f;line-height:1.5}
+footer{
+background:#7b263f;
+color:white;
+text-align:center;
+padding:25px 15px;
+margin-top:30px;
 }
-
-.product h3 {
-  font-size: 17px;
+@media(max-width:750px){
+.products{grid-template-columns:repeat(2,minmax(0,1fr))}
+nav{gap:13px}
+nav a{font-size:13px}
 }
-
-.price {
-  color: #9b315e;
-  font-size: 19px;
-  font-weight: bold;
-}
-
-button {
-  background: #8b3158;
-  color: white;
-  border: 0;
-  padding: 11px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-button:hover {
-  background: #67213f;
-}
-
-.cart, .about, .contact {
-  background: white;
-  margin: 22px auto;
-  padding: 22px;
-  border-radius: 14px;
-  max-width: 850px;
-  width: calc(100% - 30px);
-  box-shadow: 0 3px 12px #0001;
-}
-
-.cart h2, .about h2, .contact h2 {
-  color: #8b3158;
-}
-
-.cart-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #f1dce5;
-  padding: 12px 0;
-}
-
-.cart-item button {
-  padding: 7px 11px;
-}
-
-.remove {
-  background: #a33b3b;
-}
-
-.total {
-  text-align: right;
-  color: #8b3158;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-input, textarea, select {
-  width: 100%;
-  padding: 13px;
-  margin: 7px 0 15px;
-  border: 1px solid #d9b9c7;
-  border-radius: 8px;
-  font-size: 15px;
-  font-family: Arial, sans-serif;
-}
-
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-label {
-  font-weight: bold;
-  color: #573346;
-}
-
-footer {
-  text-align: center;
-  padding: 25px 12px;
-  background: #7b294d;
-  color: white;
-  margin-top: 35px;
-}
-
-@media (max-width: 800px) {
-  .products {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  header h1 {
-    font-size: 23px;
-  }
-
-  nav {
-    gap: 5px;
-    padding: 10px 5px;
-  }
-
-  nav a {
-    font-size: 13px;
-    padding: 8px 5px;
-  }
-
-  .hero {
-    padding: 35px 12px;
-  }
-
-  .hero h2 {
-    font-size: 23px;
-  }
-
-  .products {
-    gap: 10px;
-    padding: 10px;
-  }
-
-  .product {
-    padding: 13px 7px;
-  }
-
-  .product h3 {
-    font-size: 14px;
-  }
-
-  .product button {
-    padding: 10px 8px;
-    font-size: 12px;
-  }
+@media(max-width:420px){
+.products{grid-template-columns:1fr 1fr;gap:10px}
+.product{padding:15px 8px}
+.product h3{font-size:15px}
+form{grid-template-columns:1fr}
+textarea,.full{grid-column:1}
+.hero h2{font-size:26px}
 }
 </style>
 </head>
 
 <body>
 
-<header id="top">
-  <h1>Diary of Emotions 🌸</h1>
-  <p>Every Gift Tells a Story</p>
+<header id="home">
+<h1>Diary of Emotions</h1>
+<p>Every Gift Holds a Feeling ❤️</p>
 </header>
 
 <nav>
-  <a href="#top">Home</a>
-  <a href="#products">Shop</a>
-  <a href="#about">About Us</a>
-  <a href="#contact">Contact</a>
+<a href="#home">Home</a>
+<a href="#products">Shop</a>
+<a href="#about">About Us</a>
+<a href="#contact">Contact</a>
 </nav>
 
 <section class="hero">
-  <h2>Make Every Moment Special ❤️</h2>
-  <p>Beautiful Handmade Gift Hampers</p>
-  <p>Delivery Across India 🚚</p>
-  <a href="#products">
-    <button>Explore Collection</button>
-  </a>
+<h2>Gifts Made With Love</h2>
+<p>Thoughtfully curated hampers for birthdays, anniversaries and every special moment.</p>
+<p>Based in Kolkata | Delivery Across India</p>
 </section>
 
-<h2 class="section-title" id="products">Our Collection 🎁</h2>
+<section class="section" id="products">
+<h2>Our Gift Collection</h2>
 
-<section class="products">
+<div class="products">
 
-  <div class="product">
-    <div class="emoji">🎁</div>
-    <h3>Birthday Hamper</h3>
-    <p class="price">₹499</p>
-    <button onclick="add('Birthday Hamper',499)">Add to Cart</button>
-  </div>
+<div class="product">
+<div class="emoji">🎁</div>
+<h3>Birthday Hamper</h3>
+<p>Beautiful surprises for their special day.</p>
+<div class="price">₹499</div>
+<br>
+<button onclick="add('Birthday Hamper',499)">Add to Cart</button>
+</div>
 
-  <div class="product">
-    <div class="emoji">🍫</div>
-    <h3>Chocolate Hamper</h3>
-    <p class="price">₹499</p>
-    <button onclick="add('Chocolate Hamper',499)">Add to Cart</button>
-  </div>
+<div class="product">
+<div class="emoji">🍫</div>
+<h3>Chocolate Hamper</h3>
+<p>A little sweetness wrapped with love.</p>
+<div class="price">₹499</div>
+<br>
+<button onclick="add('Chocolate Hamper',499)">Add to Cart</button>
+</div>
 
-  <div class="product">
-    <div class="emoji">💝</div>
-    <h3>Anniversary Hamper</h3>
-    <p class="price">₹999</p>
-    <button onclick="add('Anniversary Hamper',999)">Add to Cart</button>
-  </div>
+<div class="product">
+<div class="emoji">💝</div>
+<h3>Anniversary Hamper</h3>
+<p>Celebrate love and togetherness.</p>
+<div class="price">₹999</div>
+<br>
+<button onclick="add('Anniversary Hamper',999)">Add to Cart</button>
+</div>
 
-  <div class="product">
-    <div class="emoji">🌷</div>
-    <h3>Custom Gift Box</h3>
-    <p class="price">₹799</p>
-    <button onclick="add('Custom Gift Box',799)">Add to Cart</button>
-  </div>
+<div class="product">
+<div class="emoji">🌷</div>
+<h3>Custom Gift Box</h3>
+<p>Personalised gifts made just for you.</p>
+<div class="price">₹799</div>
+<br>
+<button onclick="add('Custom Gift Box',799)">Add to Cart</button>
+</div>
 
+</div>
 </section>
 
-<section class="cart" id="cart">
-  <h2>🛒 Your Shopping Cart</h2>
-  <div id="items">Your cart is empty.</div>
-  <h3 class="total" id="total">Total: ₹0</h3>
+<section class="section" id="cart">
+<h2>Your Shopping Cart 🛒</h2>
+<div class="cartbox">
+<div id="cartItems">Your cart is empty.</div>
+<div class="total" id="total">Total: ₹0</div>
+<button onclick="clearCart()">Clear Cart</button>
+</div>
 </section>
 
-<section class="cart" id="checkout">
-  <h2>Customer Checkout 🛍️</h2>
+<section class="section" id="checkout">
+<h2>Checkout Details</h2>
 
-  <form id="checkoutForm">
+<div class="checkoutbox">
+<p class="note">Please fill in your delivery details. Your selected items and total are shown above.</p>
 
-    <label>Full Name</label>
-    <input type="text" id="customerName"
-      placeholder="Enter your full name" required>
+<form id="orderForm">
+<input type="text" id="customerName" placeholder="Full Name" required>
+<input type="tel" id="mobile" placeholder="Mobile Number" required>
+<input type="email" id="email" placeholder="Email Address">
+<input type="text" id="pincode" placeholder="Pincode" required>
+<input type="text" id="house" placeholder="House / Flat Number" required>
+<input type="text" id="street" placeholder="Street / Area" required>
+<input type="text" id="city" placeholder="City" required>
+<input type="text" id="state" placeholder="State" required>
+<textarea id="notes" placeholder="Gift message or special instructions"></textarea>
 
-    <label>Mobile Number</label>
-    <input type="tel" id="mobile"
-      placeholder="10 digit mobile number"
-      pattern="[0-9]{10}" maxlength="10" required>
+<button class="full" type="submit">Submit Order Details</button>
+</form>
 
-    <label>Email Address</label>
-    <input type="email" id="email"
-      placeholder="Enter email address">
-
-    <label>House / Flat Number</label>
-    <input type="text" id="house"
-      placeholder="House or flat number" required>
-
-    <label>Street / Area</label>
-    <input type="text" id="street"
-      placeholder="Street, area, landmark" required>
-
-    <label>City</label>
-    <input type="text" id="city"
-      placeholder="City" required>
-
-    <label>State</label>
-    <input type="text" id="state"
-      placeholder="State" required>
-
-    <label>PIN Code</label>
-    <input type="text" id="pincode"
-      placeholder="6 digit PIN code"
-      pattern="[0-9]{6}" maxlength="6" required>
-
-    <label>Order Notes (Optional)</label>
-    <textarea id="notes"
-      placeholder="Gift message or special instructions"></textarea>
-
-    <button type="submit">Review My Order</button>
-
-  </form>
-
-  <div id="orderSummary" style="display:none;">
-    <h3>Order Summary</h3>
-    <div id="summaryDetails"></div>
-  </div>
+<p class="note">Note: This is a front-end order form. It does not yet send orders to WhatsApp, email, or a business database.</p>
+</div>
 </section>
 
-<section class="about" id="about">
-  <h2>About Diary of Emotions 🌸</h2>
-  <p>
-    We create thoughtful handmade gift hampers to make
-    birthdays, anniversaries and special moments memorable.
-    Every gift is packed with love and care.
-  </p>
+<section class="section" id="about">
+<h2>About Us</h2>
+<p style="text-align:center;line-height:1.8">
+Diary of Emotions creates thoughtful gift hampers for your loved ones.
+Every box is prepared with care to make your special moments memorable.
+</p>
 </section>
 
-<section class="contact" id="contact">
-  <h2>Contact Us 💌</h2>
-  <p>For customised hampers and enquiries, contact us through Instagram or WhatsApp.</p>
-  <p>📍 Based in Kolkata | Delivery Across India</p>
+<section class="section" id="contact">
+<h2>Contact Us</h2>
+<p style="text-align:center;line-height:1.8">
+For custom hampers and enquiries, contact us through our Instagram or WhatsApp.
+<br>Based in Kolkata | Shipping across India
+</p>
 </section>
 
 <footer>
-  <p>© 2026 Diary of Emotions</p>
-  <p>Made with ❤️ in Kolkata</p>
+<p>Diary of Emotions ❤️</p>
+<p>Made with love in Kolkata</p>
 </footer>
 
 <script>
-let cart = [];
+let cart=[];
 
-function add(name, price) {
-  let item = cart.find(p => p.name === name);
+function add(name,price){
+let item=cart.find(p=>p.name===name);
 
-  if (item) {
-    item.qty++;
-  } else {
-    cart.push({name: name, price: price, qty: 1});
-  }
-
-  showCart();
-
-  document.getElementById("cart").scrollIntoView({
-    behavior: "smooth"
-  });
+if(item){
+item.qty++;
+}else{
+cart.push({name:name,price:price,qty:1});
 }
 
-function changeQty(index, amount) {
-  cart[index].qty += amount;
-
-  if (cart[index].qty <= 0) {
-    cart.splice(index, 1);
-  }
-
-  showCart();
+showCart();
 }
 
-function removeItem(index) {
-  cart.splice(index, 1);
-  showCart();
+function showCart(){
+let box=document.getElementById("cartItems");
+let total=0;
+
+if(cart.length===0){
+box.innerHTML="Your cart is empty.";
+}else{
+box.innerHTML=cart.map((item,index)=>{
+let subtotal=item.price*item.qty;
+total+=subtotal;
+
+return `
+<div class="cart-row">
+<span>${item.name} × ${item.qty}</span>
+<span>₹${subtotal}
+<button type="button" onclick="removeItem(${index})" style="padding:5px 8px;margin-left:5px">×</button>
+</span>
+</div>`;
+}).join("");
 }
 
-function showCart() {
-  let box = document.getElementById("items");
-  let total = 0;
-
-  if (cart.length === 0) {
-    box.innerHTML = "Your cart is empty.";
-  } else {
-    box.innerHTML = cart.map((item, i) => {
-      total += item.price * item.qty;
-
-      return `
-        <div class="cart-item">
-          <span>
-            <strong>${item.name}</strong><br>
-            ₹${item.price} × ${item.qty}
-          </span>
-
-          <span>
-            <button onclick="changeQty(${i},-1)">−</button>
-            <button onclick="changeQty(${i},1)">+</button>
-            <button class="remove" onclick="removeItem(${i})">Remove</button>
-          </span>
-
-          <strong>₹${item.price * item.qty}</strong>
-        </div>
-      `;
-    }).join("");
-  }
-
-  document.getElementById("total").innerText =
-    "Total: ₹" + total;
+document.getElementById("total").innerText="Total: ₹"+total;
 }
 
-document.getElementById("checkoutForm").addEventListener("submit", function(e) {
-  e.preventDefault();
+function removeItem(index){
+cart.splice(index,1);
+showCart();
+}
 
-  if (cart.length === 0) {
-    alert("Please add a product to your cart first.");
-    return;
-  }
+function clearCart(){
+cart=[];
+showCart();
+}
 
-  let name = document.getElementById("customerName").value;
-  let mobile = document.getElementById("mobile").value;
-  let house = document.getElementById("house").value;
-  let street = document.getElementById("street").value;
-  let city = document.getElementById("city").value;
-  let state = document.getElementById("state").value;
-  let pincode = document.getElementById("pincode").value;
-  let notes = document.getElementById("notes").value;
+document.getElementById("orderForm").addEventListener("submit",function(event){
+event.preventDefault();
 
-  let total = cart.reduce((sum, item) =>
-    sum + item.price * item.qty, 0
-  );
+if(cart.length===0){
+alert("Please add a product to your cart first.");
+return;
+}
 
-  let products = cart.map(item =>
-    item.name + " × " + item.qty + " = ₹" +
-    (item.price * item.qty)
-  ).join("<br>");
-
-  document.getElementById("summaryDetails").innerHTML = `
-    <p><strong>Name:</strong> ${escapeHTML(name)}</p>
-    <p><strong>Mobile:</strong> ${escapeHTML(mobile)}</p>
-    <p><strong>Address:</strong> ${escapeHTML(house)}, ${escapeHTML(street)}, ${escapeHTML(city)}, ${escapeHTML(state)} - ${escapeHTML(pincode)}</p>
-    <p><strong>Products:</strong><br>${products}</p>
-    <p><strong>Order Total:</strong> ₹${total}</p>
-    <p><strong>Notes:</strong> ${escapeHTML(notes || "None")}</p>
-    <p>Your order details are ready for review.</p>
-  `;
-
-  document.getElementById("orderSummary").style.display = "block";
-
-  document.getElementById("orderSummary").scrollIntoView({
-    behavior: "smooth"
-  });
+alert("Your details have been filled successfully. Online order submission is not connected yet.");
 });
-
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, function(char) {
-    return {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    }[char];
-  });
-}
 </script>
 
 </body>
