@@ -105,7 +105,9 @@ function buildChrome(){
 </div></header>
 <div class="nav-ov" id="nav-ov" onclick="closeMob()"></div>
 <div class="mob-nav" id="mob-nav"><button class="mob-nav-close" onclick="closeMob()">&#x2715;</button>
-  ${NAV.map(([k,h,l])=>`<button class="nl" onclick="location.href='${h}'">${l}</button>`).join('')}</div>
+  ${NAV.map(([k,h,l])=>`<button class="nl" onclick="location.href='${h}'">${l}</button>`).join('')}
+  <button class="nl" id="mob-install" style="display:none" onclick="closeMob();window.installApp&&installApp()">&#128242; Install App</button>
+  <button class="nl" id="mob-logout" style="display:none;color:var(--danger)" onclick="closeMob();doLogout()">Log Out</button></div>
 
 <div class="page active" id="page-main"></div>
 
@@ -638,7 +640,7 @@ async function doReset(){
 async function doLogout(){try{await fbAuth.signOut();}catch(e){}showView('main');toast('Logged out');}
 fbAuth.onAuthStateChanged(u=>{
   currentUser=u;loggedIn=!!u&&!u.isAnonymous;authReady=true;
-  const dot=document.getElementById('acc-dot');if(dot)dot.style.display=loggedIn?'block':'none';
+  const dot=document.getElementById('acc-dot');if(dot)dot.style.display=loggedIn?'block':'none';const ml=document.getElementById('mob-logout');if(ml)ml.style.display=loggedIn?'block':'none';
   if(!loggedIn)PROFILE=null;
   if(view==='account'&&!loggedIn){showView('login');return;}
   if(!loggedIn)PROFILE=null;else if(!signingUp)loadProfile();
@@ -742,7 +744,7 @@ async function renderAccount(){
   if(!loggedIn&&!authReady){el.innerHTML='<div class="acc-hero"><div class="container"><span class="eyebrow">My Account</span><h1 style="font-family:\'Cormorant Garamond\',serif;font-size:2.2rem;font-weight:400;color:var(--plum)">Loading…</h1></div></div>';return;}
   if(!loggedIn){el.innerHTML='<div class="acc-hero"><div class="container"><span class="eyebrow">My Account</span><h1 style="font-family:\'Cormorant Garamond\',serif;font-size:2.2rem;font-weight:400;color:var(--plum)">Please log in</h1></div></div>';return;}
   const u=currentUser,nm=u.displayName||(u.email||'').split('@')[0]||'there';
-  el.innerHTML=`<div class="acc-hero"><div class="container"><span class="eyebrow">My Account</span><h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:400;color:var(--plum);margin:6px 0 7px">Hello, ${esc(nm)} 👋</h1><p style="font-size:13.5px;color:var(--muted)">${esc(u.email||'')}</p></div></div>
+  el.innerHTML=`<div class="acc-hero"><div class="container"><span class="eyebrow">My Account</span><h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:400;color:var(--plum);margin:6px 0 7px">Hello, ${esc(nm)} 👋</h1><p style="font-size:13.5px;color:var(--muted)">${esc(u.email||'')}</p><button class="btn btn-ghost btn-sm" style="margin-top:12px" onclick="doLogout()">&#10162; Log Out</button></div></div>
   <section class="section" style="padding-top:28px"><div class="container">
     ${u.emailVerified?'':`<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#7a5b00;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span style="flex:1;min-width:200px">&#9993; Please verify your email (check inbox/spam). Verification is needed to post reviews.</span><button class="btn btn-ghost btn-sm" onclick="resendVerify()">Resend email</button><button class="btn btn-primary btn-sm" onclick="checkVerified()">I have verified</button></div>`}
     <div class="tab-btns"><button class="tab-btn active" onclick="showAccTab('orders',this)" id="tb-orders">My Orders</button><button class="tab-btn" onclick="showAccTab('addresses',this)" id="tb-addresses">My Addresses</button><button class="tab-btn" onclick="showAccTab('reviews',this)" id="tb-reviews">My Reviews</button><button class="tab-btn" onclick="showAccTab('settings',this)">Settings</button></div>
@@ -774,7 +776,7 @@ function showAccTab(tab,btn){
   ['orders','addresses','reviews','settings'].forEach(t=>document.getElementById('acc-'+t).style.display=t===tab?'block':'none');
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
 }
-function openMob(){document.getElementById('mob-nav').style.display='flex';document.getElementById('nav-ov').style.display='block';}
+function openMob(){const mi=document.getElementById('mob-install');if(mi){const sa=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;mi.style.display=sa?'none':'block';}document.getElementById('mob-nav').style.display='flex';document.getElementById('nav-ov').style.display='block';}
 function closeMob(){document.getElementById('mob-nav').style.display='none';document.getElementById('nav-ov').style.display='none';}
 function sendWA(){
   const v=id=>(document.getElementById(id)?.value||'').trim();

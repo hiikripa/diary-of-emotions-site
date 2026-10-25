@@ -26,5 +26,9 @@
   const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
   const safari=/safari/i.test(navigator.userAgent)&&!/crios|fxios|edgios/i.test(navigator.userAgent);
   if(ios&&safari)setTimeout(()=>show('Install: tap <b>Share</b> &#11014;&#65039; then <b>Add to Home Screen</b>',null),15000);
-  window.installApp=function(){if(ev){ev.prompt();}else if(ios){hide();try{localStorage.removeItem(K);}catch(e){}show('Install: tap <b>Share</b> &#11014;&#65039; then <b>Add to Home Screen</b>',null);}};
+  window.installApp=function(){
+    if(ev){ev.prompt();}
+    else if(ios){try{localStorage.removeItem(K);}catch(e){}if(pill){pill.remove();pill=null;}show('Install: tap <b>Share</b> &#11014;&#65039; then <b>Add to Home Screen</b>',null);}
+    else{try{localStorage.removeItem(K);}catch(e){}if(pill){pill.remove();pill=null;}show('To install: open the browser menu <b>&#8942;</b> and tap <b>Install app</b> / <b>Add to Home screen</b>',null);}
+  };
 })();

@@ -72,8 +72,8 @@
       </div>
     </aside>
     <main class="admin-main">
-      <select class="form-control" id="mob-tabs" onchange="showAdmin(this.value)">
-        <option value="dash">Dashboard</option><option value="products">Products</option><option value="inventory">Stock &amp; Inventory</option><option value="offers">Offers &amp; Discounts</option><option value="bulk">Bulk Discount Tool</option><option value="orders">Orders</option><option value="reviews">Reviews</option><option value="pages">Pages &amp; Content</option><option value="occasion">Occasion Themes</option><option value="theme">Theme &amp; Colors</option><option value="settings">Store Settings</option><option value="backup">Backup &amp; Restore</option>
+      <select class="form-control" id="mob-tabs" onchange="if(this.value==='__out'){this.value=tab;adminLogout();}else showAdmin(this.value)">
+        <option value="dash">Dashboard</option><option value="products">Products</option><option value="inventory">Stock &amp; Inventory</option><option value="offers">Offers &amp; Discounts</option><option value="bulk">Bulk Discount Tool</option><option value="orders">Orders</option><option value="reviews">Reviews</option><option value="pages">Pages &amp; Content</option><option value="occasion">Occasion Themes</option><option value="theme">Theme &amp; Colors</option><option value="settings">Store Settings</option><option value="backup">Backup &amp; Restore</option><option value="__out">&#10006; Sign Out</option>
       </select>
       <div id="perm-banner" style="display:none;background:#fdecea;border:1px solid #f5c6cb;color:#b71c1c;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;line-height:1.55"><strong>⚠ Firebase is refusing to read/write data (permission denied).</strong><br>Fix: Firebase Console → Firestore Database → <strong>Rules</strong> → paste the full contents of <code>firestore.rules</code> → <strong>Publish</strong>. Then refresh this page and sign in again with the owner account.</div>
       <div id="admin-main"></div>
