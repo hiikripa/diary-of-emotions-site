@@ -539,8 +539,6 @@ tr:hover .row-actions { opacity: 1; }
 @keyframes occScroll{to{transform:translateX(-50%)}}
 @keyframes occBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){.occ-track,.occ-em,.occ-img{animation:none}}
-.fx-toggle{position:fixed;left:14px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:130;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:#fff;box-shadow:0 4px 14px rgba(46,26,46,.18);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.fx-toggle.off{opacity:.55;filter:grayscale(1)}
 
 /* ============================================
    APP / MOBILE LAYER (bottom tab bar, safe areas, touch comfort)
@@ -556,7 +554,6 @@ tr:hover .row-actions { opacity: 1; }
   .tb.on{color:var(--rose-deep)}.tb.on svg{stroke-width:2.2}
   .tb-bad{position:absolute;top:2px;left:calc(50% + 6px);background:var(--rose-deep);color:#fff;font-style:normal;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;align-items:center;justify-content:center;padding:0 3px}
   .toast{bottom:calc(78px + env(safe-area-inset-bottom))}
-  .fx-toggle{bottom:calc(76px + env(safe-area-inset-bottom));left:10px;width:38px;height:38px}
   .pwa-pill{bottom:calc(76px + env(safe-area-inset-bottom))}
   .nav-acts .icon-btn[title="Cart"]{display:none}
   .nav-ov{z-index:114}.mob-nav{z-index:115;padding-bottom:calc(26px + env(safe-area-inset-bottom))}
@@ -573,3 +570,16 @@ tr:hover .row-actions { opacity: 1; }
 html{-webkit-text-size-adjust:100%}
 img{max-width:100%}
 .cart-sb:not(.open){box-shadow:none}
+
+/* banner styles (variants): 1 classic, 2 ribbon, 3 framed, 4 big, 5 minimal */
+.occ-b2{background:transparent;border-bottom:none;padding:8px 12px}
+.occ-b2 .occ-in{background:linear-gradient(90deg,var(--rose-light),var(--lav-light));border:1px solid var(--border);border-radius:40px;padding:8px 20px;max-width:760px;box-shadow:0 4px 14px rgba(46,26,46,.08)}
+.occ-b2 .occ-garland,.occ-b5 .occ-garland{display:none}
+.occ-b3{background:var(--cream);border-top:3px double var(--rose);border-bottom:3px double var(--rose)}
+.occ-b3 .occ-txt b{color:var(--rose-deep)}
+.occ-b4 .occ-em{font-size:38px}.occ-b4 .occ-img{height:72px;max-width:110px}
+.occ-b4 .occ-txt b{font-size:clamp(20px,3.4vw,30px)}
+.occ-b5{background:var(--lav-light)}
+.occ-b5 .occ-in{padding:6px 12px;gap:8px}.occ-b5 .occ-em,.occ-b5 .occ-img{display:none}
+.occ-b5 .occ-txt b{display:inline;font-size:15px}.occ-b5 .occ-txt span{display:inline;margin-left:8px}
+@media(max-width:960px){.occ-b4 .occ-em{font-size:28px}.occ-b4 .occ-img{height:56px}.occ-b5 .occ-txt span{display:block;margin:0}.occ-b2 .occ-in{border-radius:20px}}

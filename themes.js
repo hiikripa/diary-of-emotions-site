@@ -24,9 +24,21 @@ window.OCCASIONS=[
  {id:'holi',name:'Holi',emoji:'🎨',when:'March',colors:C('#E91E8C','#9C1067','#7C4DFF','#F1EAFF','#FFFAF2','#2B1247','#512B86'),
   pal:['#E91E8C','#FFD600','#00C853','#2979FF','#FF6D00','#AA00FF'],fx:[{t:'gulal'}],
   greet:'Happy Holi! रंगों का त्योहार 🎨',sub:'Tap anywhere to throw gulal!',glyphs:['🎨','💦','🌈']},
- {id:'eid',name:'Eid',emoji:'🌙',when:'Eid-ul-Fitr / Eid-ul-Adha',colors:C('#2E9E7A','#146B50','#E6C766','#FFF6D9','#FAFDF9','#0E3B2E','#1D6A52'),
+ {id:'eid',name:'Eid-ul-Fitr',emoji:'🌙',when:'After Ramadan',colors:C('#2E9E7A','#146B50','#E6C766','#FFF6D9','#FAFDF9','#0E3B2E','#1D6A52'),
   pal:['#2E9E7A','#E6C766','#FFFFFF'],fx:[E(['⭐','✨','🌙','🏮'],{n:16,dir:'down',sp:[.4,1]})],
   greet:'Eid Mubarak! 🌙',sub:'Wishing you joy, peace and sweet gifting.',glyphs:['🌙','⭐','✨']},
+ {id:'ramadan',name:'Ramadan',emoji:'🕌',when:'Holy month (moon-sighting)',colors:C('#4C6EF5','#2B3A8C','#F2C14E','#FFF3D0','#F9FAFF','#141B4D','#2A3580'),
+  pal:['#4C6EF5','#F2C14E','#FFFFFF'],fx:[E(['🌙','⭐','✨','🏮'],{n:16,sp:[.35,.9]})],
+  greet:'Ramadan Mubarak 🌙',sub:'Wishing you a blessed month of peace and gratitude.',glyphs:['🌙','⭐','🏮']},
+ {id:'adha',name:'Eid-ul-Adha (Bakrid)',emoji:'🕌',when:'Dhul Hijjah (moon-sighting)',colors:C('#1F8A70','#0F5C49','#D9B77A','#FBF0DC','#FBFDFA','#0C3328','#1B5A47'),
+  pal:['#1F8A70','#D9B77A','#FFFFFF'],fx:[E(['🌙','✨','⭐','🌹'],{n:16,sp:[.4,1]})],
+  greet:'Eid-ul-Adha Mubarak 🕌',sub:'May your home be filled with blessings and togetherness.',glyphs:['🌙','🕌','✨']},
+ {id:'milad',name:'Eid Milad-un-Nabi',emoji:'🌹',when:'12 Rabi al-Awwal (moon-sighting)',colors:C('#43A580','#1E7A5C','#F1D58A','#FFF8DF','#F8FDFB','#0F3A2C','#1F6650'),
+  pal:['#43A580','#F1D58A','#FFFFFF'],fx:[E(['🌹','✨','🕌','⭐'],{n:16,sp:[.4,1]})],
+  greet:'Eid Milad-un-Nabi Mubarak 🌹',sub:'Peace, kindness and blessings to you and your family.',glyphs:['🌹','🕌','✨']},
+ {id:'shabebarat',name:'Shab-e-Barat',emoji:'🕯️',when:'15 Sha\'ban (moon-sighting)',colors:C('#7E57C2','#4527A0','#B0BEC5','#ECEFF1','#FAF9FF','#1F1546','#3C2B7A'),
+  pal:['#7E57C2','#B0BEC5','#FFFFFF'],fx:[E(['🕯️','🌙','✨','⭐'],{n:14,sp:[.3,.8]})],
+  greet:'Shab-e-Barat Mubarak 🕯️',sub:'A night of prayers, forgiveness and light.',glyphs:['🕯️','🌙','✨']},
  {id:'mothers',name:"Mother's Day",emoji:'🌷',when:'2nd Sun of May',colors:C('#E8808F','#B8485C','#F7C6B3','#FFEEE6','#FFF9F6','#4A1F2B','#7A3447'),
   pal:['#E8808F','#F7C6B3','#FFD6A5'],fx:[E(['🌷','🌸','💐','🌺'],{n:20})],
   greet:"Happy Mother's Day 🌷",sub:'Because she deserves more than a thank-you.',glyphs:['🌷','💐','💗']},
@@ -54,9 +66,21 @@ window.OCCASIONS=[
  {id:'karwa',name:'Karwa Chauth',emoji:'🌙',when:'Oct / Nov',colors:C('#C2185B','#880E4F','#FFD180','#FFF1D9','#FFF7F7','#3E0B24','#6A1A3F'),
   pal:['#C2185B','#FFD180','#FFFFFF'],fx:[E(['🌙','✨','❤️','💍'],{n:16,sp:[.4,1.1]})],
   greet:'Happy Karwa Chauth 🌙',sub:'Gifts for your forever love.',glyphs:['🌙','❤️','✨']},
- {id:'diwali',name:'Diwali',emoji:'🪔',when:'Oct / Nov',colors:C('#F0A500','#A86A00','#B39DDB','#F3ECFF','#FFFAEF','#2A0F3D','#4B1F6E'),
-  pal:['#F0A500','#E8590C','#D6336C','#7048E8','#12B886'],fx:[{t:'fireworks'},E(['🪔','✨'],{dir:'up',n:10,min:20,max:30,sp:[.4,.9]})],
-  greet:'Shubh Deepawali! 🪔',sub:'Light up their day. Tap anywhere for fireworks!',glyphs:['🪔','✨','🎆']},
+ {id:'dhanteras',name:'Dhanteras',emoji:'🪙',when:'Diwali Day 1',colors:C('#E0A100','#9A6B00','#FFCC80','#FFF1D6','#FFFAEC','#3A2300','#6B4300'),
+  pal:['#F5B700','#E0A100','#E8590C','#FFFFFF'],fx:[E(['🪙','💰','✨'],{n:16,sp:[.6,1.4]}),E(['🪔'],{dir:'up',n:8,min:22,max:30,sp:[.4,.9]})],
+  greet:'Shubh Dhanteras! 🪙',sub:'Welcome prosperity with a gift they will treasure.',glyphs:['🪙','🪔','✨']},
+ {id:'chotidiwali',name:'Choti Diwali',emoji:'🪔',when:'Diwali Day 2 (Naraka Chaturdashi)',colors:C('#EF6C00','#A64500','#CE93D8','#F6EAFB','#FFF8F0','#3B1030','#6A1E55'),
+  pal:['#EF6C00','#E91E8C','#FFC107','#7048E8'],fx:[{t:'fireworks',rate:.6},E(['🪔','🪔','✨'],{dir:'up',n:12,min:22,max:30,sp:[.4,.9]})],
+  greet:'Happy Choti Diwali! 🪔',sub:'Light the first diyas, share the first smiles.',glyphs:['🪔','✨','🎇']},
+ {id:'diwali',name:'Diwali (Lakshmi Puja)',emoji:'🪔',when:'Diwali Day 3',colors:C('#F0A500','#A86A00','#B39DDB','#F3ECFF','#FFFAEF','#2A0F3D','#4B1F6E'),
+  pal:['#F0A500','#E8590C','#D6336C','#7048E8','#12B886'],fx:[{t:'fireworks'},E(['🪔','✨','🪷'],{dir:'up',n:10,min:20,max:30,sp:[.4,.9]})],
+  greet:'Shubh Deepawali! 🪔',sub:'Light up their day. Tap anywhere for fireworks!',glyphs:['🪔','✨','🪷']},
+ {id:'govardhan',name:'Govardhan Puja / New Year',emoji:'🌾',when:'Diwali Day 4 (Annakut / Gujarati New Year)',colors:C('#43A047','#1B6E2E','#FFD54F','#FFF7D1','#FBFEF6','#1B3A12','#2F6120'),
+  pal:['#43A047','#FFD54F','#E8590C'],fx:[E(['🌾','🌼','✨'],{n:18}),E(['🪔'],{dir:'up',n:8,min:22,max:30,sp:[.4,.9]})],
+  greet:'Happy Govardhan Puja & Annakut 🌾',sub:'Saal Mubarak to everyone celebrating the new year!',glyphs:['🌾','🌼','🪔']},
+ {id:'bhaidooj',name:'Bhai Dooj',emoji:'💛',when:'Diwali Day 5',colors:C('#D84A6B','#9B2347','#FFB74D','#FFF0DB','#FFF8F3','#4A1226','#7C2442'),
+  pal:['#D84A6B','#FFB74D','#FFFFFF'],fx:[E(['💛','🎁','✨'],{n:16}),E(['🪔'],{dir:'up',n:8,min:22,max:30,sp:[.4,.9]})],
+  greet:'Happy Bhai Dooj! 🪔',sub:'Tilak, sweets and a gift for the bond that lasts.',glyphs:['🪔','💛','🎁']},
  {id:'childrens',name:"Children's Day",emoji:'🎈',when:'14 Nov',colors:C('#29B6F6','#0277BD','#FFCA28','#FFF6D6','#FBFDFF','#1A2B4A','#2C4A7D'),
   pal:['#29B6F6','#FFCA28','#FF6FA5','#69DB7C'],fx:[E(['🎈','🎈','🧸','🌈','🎨'],{dir:'up',n:16,min:24,max:38,sp:[.6,1.3]})],
   greet:"Happy Children's Day 🎈",sub:'Little smiles deserve big surprises.',glyphs:['🎈','🧸','🌈']},
@@ -67,21 +91,63 @@ window.OCCASIONS=[
   pal:['#FF6FA5','#B39DDB','#FFD43B','#4DABF7','#69DB7C'],fx:[CF(['#FF6FA5','#B39DDB','#FFD43B','#4DABF7','#69DB7C'],50),E(['🎈','🎁','🎂'],{dir:'up',n:8})],
   greet:'Celebrate every special day 🎂',sub:'Birthday & anniversary hampers, made with love.',glyphs:['🎂','🎁','🎉']}
 ];
+const GROUPS={diwali:['dhanteras','chotidiwali','diwali','govardhan','bhaidooj'],muslim:['ramadan','eid','adha','milad','shabebarat']};
+OCCASIONS.forEach(o=>{o.group=GROUPS.diwali.includes(o.id)?'diwali':GROUPS.muslim.includes(o.id)?'muslim':'fest';});
 window.OCC_BY_ID={};OCCASIONS.forEach(o=>OCC_BY_ID[o.id]=o);
 
 // today in India (IST) as YYYY-MM-DD
 window.todayIST=function(){return new Date(Date.now()+5.5*3600*1000).toISOString().slice(0,10);};
 
-// Decide which occasion is live. cfg = {mode:'off'|'manual'|'auto', id, sched:[{id,from,to,greet,sub}], greet, sub}
+/* ---------------------------------------------------------------- 10 style variants for EVERY occasion */
+const hx=h=>{const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255];};
+const toHex=(r,g,b)=>'#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+const mixc=(a,b,t)=>{const x=hx(a),y=hx(b);return toHex(x[0]*(1-t)+y[0]*t,x[1]*(1-t)+y[1]*t,x[2]*(1-t)+y[2]*t);};
+function sat(h,k){const [r,g,b]=hx(h),m=(r+g+b)/3;return toHex(m+(r-m)*k,m+(g-m)*k,m+(b-m)*k);}
+const PAL={
+  base:c=>c,
+  soft:c=>({...c,rose:mixc(c.rose,'#ffffff',.28),lav:mixc(c.lav,'#ffffff',.3),lavLight:mixc(c.lavLight,'#ffffff',.5)}),
+  vivid:c=>({...c,rose:sat(c.rose,1.3),roseDeep:sat(c.roseDeep,1.2),lav:sat(c.lav,1.25)}),
+  gold:c=>({...c,rose:mixc(c.rose,'#E0A100',.3),lav:'#E6C766',lavLight:'#FFF6D9'}),
+  blush:c=>({...c,cream:mixc(c.cream,c.rose,.1),lavLight:mixc(c.lavLight,c.rose,.12)})
+};
+const spec=(o,rate)=>(o.fx||[]).filter(l=>l.t==='fireworks'||l.t==='gulal'||l.t==='snow').map(l=>Object.assign({},l,rate===undefined?{}:{rate}));
+const gl=o=>(o.glyphs&&o.glyphs.length?o.glyphs:[o.emoji]).filter(x=>x!=='🪔'&&x!=='🇮🇳');
+const gg=o=>{const g=gl(o);return g.length?g:[o.emoji];};
+window.OCC_VARIANTS=[
+ {name:'Classic',pal:'base',b:1,fx:o=>o.fx},
+ {name:'Soft Pastel',pal:'soft',b:2,fx:o=>[...spec(o,.6),E(gg(o),{n:14,sp:[.4,1]})]},
+ {name:'Rich & Vivid',pal:'vivid',b:1,fx:o=>[...o.fx,CF(o.pal,24)]},
+ {name:'Golden Glow',pal:'gold',b:3,fx:o=>[...spec(o,1),E(['✨','⭐','✨'],{n:18,sp:[.3,.9],min:14,max:24})]},
+ {name:'Rising Wishes',pal:'base',b:2,fx:o=>[...spec(o,.7),E(gg(o),{dir:'up',n:16,sp:[.5,1.2]})]},
+ {name:'Confetti Party',pal:'vivid',b:4,fx:o=>[CF(o.pal,70),...spec(o,.6)]},
+ {name:'Gentle & Calm',pal:'soft',b:5,fx:o=>[E(gg(o),{n:8,sp:[.3,.7]})]},
+ {name:'Blush & Cream',pal:'blush',b:3,fx:o=>[...spec(o,.5),E(gg(o),{n:20,sp:[.5,1.2]})]},
+ {name:'Surprise on Tap',pal:'base',b:4,fx:o=>[...spec(o,0),E(gg(o),{n:0})]},
+ {name:'Banner Only (quiet)',pal:'base',b:1,fx:()=>[]}
+];
+const SUBS=['','Thoughtful hampers for {n}','Make {n} extra special','Gift love this {n}','Wishes, wrapped with care','Celebrate {n} with a hamper','From our family to yours','Surprise someone this {n}','Tap anywhere for a little surprise ✨','Send {n} wishes with love'];
+// Build the final occasion object for (id, variant 0-9)
+window.buildOcc=function(id,v){
+  const b=OCC_BY_ID[id];if(!b)return null;
+  v=Math.max(0,Math.min(9,parseInt(v,10)||0));const R=OCC_VARIANTS[v];
+  const o=Object.assign({},b);
+  o.vi=v;o.vname=R.name;o.banner=R.b;
+  o.colors=PAL[R.pal](b.colors);
+  o.fx=R.fx(b);
+  if(v>0)o.sub=SUBS[v].replace(/\{n\}/g,b.name.split(' / ')[0].replace(/\s*\(.*\)/,''));
+  return o;
+};
+
+// Decide which occasion is live. cfg = {mode:'off'|'manual'|'auto', id, v, sched:[{id,v,from,to}], greet, sub}
 window.resolveOccasion=function(cfg){
-  let q=null;try{q=new URLSearchParams(location.search).get('occ');}catch(e){}
-  if(q&&OCC_BY_ID[q])return {o:OCC_BY_ID[q],greet:'',sub:'',preview:true};
+  let q=null,qv=0;try{const u=new URLSearchParams(location.search);q=u.get('occ');qv=u.get('v');}catch(e){}
+  if(q&&OCC_BY_ID[q])return {o:buildOcc(q,qv),greet:'',sub:'',preview:true};
   if(!cfg||!cfg.mode||cfg.mode==='off')return null;
-  if(cfg.mode==='manual'&&OCC_BY_ID[cfg.id])return {o:OCC_BY_ID[cfg.id],greet:cfg.greet||'',sub:cfg.sub||''};
+  if(cfg.mode==='manual'&&OCC_BY_ID[cfg.id])return {o:buildOcc(cfg.id,cfg.v),greet:cfg.greet||'',sub:cfg.sub||''};
   if(cfg.mode==='auto'){
     const t=todayIST();
     const s=(cfg.sched||[]).find(x=>x&&OCC_BY_ID[x.id]&&x.from&&x.to&&x.from<=t&&t<=x.to);
-    if(s)return {o:OCC_BY_ID[s.id],greet:s.greet||'',sub:s.sub||''};
+    if(s)return {o:buildOcc(s.id,s.v),greet:s.greet||'',sub:s.sub||''};
   }
   return null;
 };
@@ -89,6 +155,7 @@ window.resolveOccasion=function(cfg){
 /* ---------------------------------------------------------------- effects engine */
 window.FX=(function(){
   let cv=null,ctx=null,W=0,H=0,dpr=1,parts=[],layers=[],occ=null,raf=0,last=0,tGul=0,tFw=0,running=false,sig='';
+  const UPRIGHT=['\u{1FA94}','\u{1F388}','\u{1F319}','\u{1F384}','\u{1F54C}','\u{1F56F}\uFE0F','\u{1F3EE}','\u{1F3C6}','\u{1FA99}'];
   const FONT='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
   const R=(a,b)=>a+Math.random()*(b-a);
   const pick=a=>a[Math.floor(Math.random()*a.length)];
@@ -103,9 +170,10 @@ window.FX=(function(){
     addEventListener('resize',resize);
   }
   function spawnEmoji(L,fresh){
-    const up=L.dir==='up';
-    return {k:'emoji',g:pick(L.g),x:R(0,W),y:fresh?R(0,H):(up?H+40:-40),s:R(L.min,L.max),vy:R(L.sp[0],L.sp[1])*(up?-1:1)*(small()?.8:1),
-      vx:R(-.25,.25),ph:R(0,6.28),sw:R(.4,1.2),rot:R(-.5,.5),vr:R(-.012,.012),a:R(.75,1),L};
+    const g=pick(L.g),fixed=UPRIGHT.indexOf(g)>=0;
+    const up=L.dir==='up'||g==='\u{1FA94}';          // a diya always rises, like a lantern - never falls or tumbles
+    return {k:'emoji',g,x:R(0,W),y:fresh?R(0,H):(up?H+40:-40),s:R(L.min,L.max),vy:R(L.sp[0],L.sp[1])*(up?-1:1)*(small()?.8:1),
+      vx:R(-.25,.25),ph:R(0,6.28),sw:fixed?R(.2,.5):R(.4,1.2),rot:fixed?0:R(-.5,.5),vr:fixed?0:R(-.012,.012),a:R(.75,1),L};
   }
   function spawnConf(L,fresh){
     return {k:'conf',x:R(0,W),y:fresh?R(0,H):-12,w:R(6,11),h:R(4,8),c:pick(L.pal),vy:R(1,2.4),vx:R(-.4,.4),ph:R(0,6.28),rot:R(0,6.28),vr:R(-.1,.1),L};
@@ -146,8 +214,8 @@ window.FX=(function(){
     ctx.clearRect(0,0,W,H);
     // ambient bursts
     const gl=layers.find(l=>l.t==='gulal'),fw=layers.find(l=>l.t==='fireworks');
-    if(gl){tGul-=dt;if(tGul<=0){tGul=small()?95:70;gulalBurst(R(W*.1,W*.9),R(H*.4,H*.85),small()?12:18,gl.pal);}}
-    if(fw){tFw-=dt;if(tFw<=0){tFw=small()?110:75;parts.push({k:'rocket',x:R(W*.1,W*.9),y:H+10,vx:R(-.6,.6),vy:-R(6,9.5),ty:R(H*.12,H*.45),c:pick(fw.pal||occ.pal),pal:fw.pal});}}
+    if(gl&&gl.rate!==0){tGul-=dt;if(tGul<=0){tGul=(small()?95:70)/(gl.rate||1);gulalBurst(R(W*.1,W*.9),R(H*.4,H*.85),small()?12:18,gl.pal);}}
+    if(fw&&fw.rate!==0){tFw-=dt;if(tFw<=0){tFw=(small()?110:75)/(fw.rate||1);parts.push({k:'rocket',x:R(W*.1,W*.9),y:H+10,vx:R(-.6,.6),vy:-R(6,9.5),ty:R(H*.12,H*.45),c:pick(fw.pal||occ.pal),pal:fw.pal});}}
     for(let i=parts.length-1;i>=0;i--){
       const p=parts[i];
       switch(p.k){
@@ -184,10 +252,10 @@ window.FX=(function(){
   function stop(){running=false;if(raf)cancelAnimationFrame(raf);raf=0;parts=[];layers=[];if(cv){cv.remove();cv=null;ctx=null;}
     removeEventListener('pointerdown',onTap);}
   function start(o){
-    const s=o?o.id+'|'+muted():'';
+    const s=o?o.id+'|'+(o.vi||0)+'|'+muted():'';
     if(s===sig&&(!o||running))return;
     sig=s;stop();occ=o;
-    if(!o||!o.fx||reduced()||muted())return;
+    if(!o||!o.fx||!o.fx.length||reduced()||muted())return;
     if(!document.body)return;
     mk();running=true;layers=o.fx.map(l=>typeof l==='string'?{t:l}:l).map(l=>Object.assign({pal:o.pal},l,l.pal?{}:{pal:o.pal}));
     const sc=small()?.55:1;

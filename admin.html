@@ -20,11 +20,12 @@
 .occ-card.sel{border-color:var(--plum);box-shadow:0 0 0 3px rgba(46,26,46,.12)}
 .occ-sw{height:46px;display:flex;align-items:center;justify-content:center;font-size:24px}
 .occ-meta{padding:8px 10px 10px}.occ-meta b{display:block;font-size:12.5px;line-height:1.3}.occ-meta small{color:var(--muted);font-size:11px}
+.occ-h{font-size:13px;margin:16px 0 10px;color:var(--plum)}.occ-h:first-child{margin-top:0}
 .occ-meta a{font-size:11.5px;color:var(--rose-deep);text-decoration:underline;cursor:pointer}
 .occ-modes{display:flex;gap:8px;flex-wrap:wrap}
 .occ-modes button{flex:1;min-width:140px;padding:11px 12px;border-radius:10px;border:2px solid var(--border);background:#fff;cursor:pointer;font:inherit;font-weight:600;font-size:13px;color:var(--plum)}
 .occ-modes button.on{border-color:var(--plum);background:var(--lav-light)}
-.occ-sched{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:8px}
+.occ-sched{display:grid;grid-template-columns:1.4fr 1.2fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:8px}
 @media(max-width:700px){.occ-grid{grid-template-columns:1fr 1fr;gap:8px}.occ-sw{height:38px;font-size:20px}.occ-sched{grid-template-columns:1fr 1fr}.occ-sched .occ-del{grid-column:1/-1}}
 @media(max-width:960px){
   #mob-tabs{display:block}
@@ -588,39 +589,49 @@ function admTheme(M){
     <select class="form-control" onchange="SS.radius=this.value;applyTheme()">${[['8px','8px · Sharp'],['12px','12px · Subtle'],['16px','16px · Default'],['20px','20px · Rounded'],['24px','24px · Soft']].map(([v,l])=>`<option value="${v}" ${SS.radius===v?'selected':''}>${l}</option>`).join('')}</select></div></div></div>`;
 }
 // ------------------------------------------------------------------ occasion themes
-let OCC={mode:'off',id:'',greet:'',sub:'',sched:[]},occSel='',occImgCache={};
-function occList(){return OCCASIONS.map(o=>`<option value="${o.id}">${o.emoji} ${esc(o.name)}</option>`).join('');}
+let OCC={mode:'off',id:'',v:0,greet:'',sub:'',sched:[]},occSel='',occVar=null,occImgCache={};
+function occList(sel){const grp=(t,g)=>`<optgroup label="${t}">${OCCASIONS.filter(o=>o.group===g).map(o=>`<option value="${o.id}" ${o.id===sel?'selected':''}>${o.emoji} ${esc(o.name)}</option>`).join('')}</optgroup>`;return grp('Festivals','fest')+grp('Diwali - 5 days','diwali')+grp('Muslim occasions','muslim');}
+function occVarList(sel){return OCC_VARIANTS.map((v,i)=>`<option value="${i}" ${i===(+sel||0)?'selected':''}>${i+1}. ${esc(v.name)}</option>`).join('');}
 function admOccasion(M){
   if(!occSel)occSel=OCC.id||'diwali';
+  if(typeof occVar==='undefined'||occVar===null)occVar=+OCC.v||0;
   const o=OCC_BY_ID[occSel],sw=c=>`linear-gradient(135deg,${c.rose},${c.lav})`;
+  const card=x=>`<button class="occ-card ${x.id===occSel?'sel':''}" onclick="occPick('${x.id}')"><div class="occ-sw" style="background:${sw(x.colors)}">${x.emoji}</div><div class="occ-meta"><b>${esc(x.name)}</b><small>${esc(x.when)}</small></div></button>`;
+  const grid=(t,g,note)=>`<h4 class="occ-h">${t}</h4>${note?`<p class="form-hint" style="margin:-4px 0 10px">${note}</p>`:''}<div class="occ-grid">${OCCASIONS.filter(x=>x.group===g).map(card).join('')}</div>`;
   M.innerHTML=`<div class="admin-topbar"><h1 class="admin-page-title">Occasion Themes</h1><button class="btn btn-primary btn-sm" onclick="saveOcc()">✓ Save &amp; Publish</button></div>
-  <div class="alert-banner alert-info"><span>🎉</span><span>Pick a festival and the whole store changes: colours, a greeting banner and animated effects (gulal, fireworks, petals, snow…). Customers can tap the screen for a burst. Use <strong>Preview</strong> to see it first - nothing goes live until you press <strong>Save &amp; Publish</strong>.</span></div>
+  <div class="alert-banner alert-info"><span>🎉</span><span>${OCCASIONS.length} occasions × 10 styles = <strong>${OCCASIONS.length*10} looks</strong>. Pick an occasion, pick a style, press <strong>Preview</strong>. Nothing goes live until you press <strong>Save &amp; Publish</strong>.</span></div>
   <div class="admin-card" style="margin:16px 0"><div class="admin-card-hd"><h3>1. How should themes run?</h3></div><div class="admin-card-body">
     <div class="occ-modes">
       <button class="${OCC.mode==='off'||!OCC.mode?'on':''}" onclick="occMode('off')">⏸ Off<br><small style="font-weight:400">Normal store theme</small></button>
       <button class="${OCC.mode==='manual'?'on':''}" onclick="occMode('manual')">👆 Manual<br><small style="font-weight:400">I switch it on/off myself</small></button>
       <button class="${OCC.mode==='auto'?'on':''}" onclick="occMode('auto')">📅 Auto by dates<br><small style="font-weight:400">Set start &amp; end once</small></button></div></div></div>
-  <div class="admin-card" style="margin-bottom:16px"><div class="admin-card-hd"><h3>2. Choose a theme (${OCCASIONS.length})</h3></div><div class="admin-card-body"><div class="occ-grid">
-    ${OCCASIONS.map(x=>`<button class="occ-card ${x.id===occSel?'sel':''}" onclick="occPick('${x.id}')"><div class="occ-sw" style="background:${sw(x.colors)}">${x.emoji}</div><div class="occ-meta"><b>${esc(x.name)}</b><small>${esc(x.when)}</small><br><a onclick="event.stopPropagation();window.open('index.html?occ=${x.id}','_blank')">▶ Preview</a></div></button>`).join('')}</div></div></div>
-  <div class="admin-card" style="margin-bottom:16px"><div class="admin-card-hd"><h3>3. Customise “${esc(o.name)}” <span style="font-weight:400;font-size:12px;color:var(--muted)">(optional)</span></h3></div><div class="admin-card-body">
+  <div class="admin-card" style="margin-bottom:16px"><div class="admin-card-hd"><h3>2. Choose the occasion</h3></div><div class="admin-card-body">
+    ${grid('Festivals &amp; special days','fest')}
+    ${grid('🪔 Diwali - all 5 days','diwali','Dhanteras, Choti Diwali, Diwali (Lakshmi Puja), Govardhan Puja / New Year, Bhai Dooj - each has its own look and its own 10 styles.')}
+    ${grid('🌙 Muslim occasions','muslim','Eid and other moon-sighting dates change every year - set the exact dates yourself.')}</div></div>
+  <div class="admin-card" style="margin-bottom:16px"><div class="admin-card-hd"><h3>3. Choose a style for “${esc(o.name)}” <span style="font-weight:400;font-size:12px;color:var(--muted)">(10 styles)</span></h3></div><div class="admin-card-body"><div class="occ-grid">
+    ${OCC_VARIANTS.map((v,i)=>{const b=buildOcc(occSel,i);return `<button class="occ-card ${i===occVar?'sel':''}" onclick="occPickVar(${i})"><div class="occ-sw" style="background:${sw(b.colors)}">${b.emoji}</div><div class="occ-meta"><b>${i+1}. ${esc(v.name)}</b><br><a onclick="event.stopPropagation();window.open('index.html?occ=${occSel}&v=${i}','_blank')">▶ Preview</a></div></button>`;}).join('')}</div></div></div>
+  <div class="admin-card" style="margin-bottom:16px"><div class="admin-card-hd"><h3>4. Customise “${esc(o.name)}” <span style="font-weight:400;font-size:12px;color:var(--muted)">(optional)</span></h3></div><div class="admin-card-body">
     <div class="form-group"><label>Greeting (big line)</label><input class="form-control" id="oc-greet" maxlength="90" placeholder="${esc(o.greet)}" value="${esc(OCC.mode==='manual'&&OCC.id===occSel?OCC.greet:'')}"/></div>
-    <div class="form-group"><label>Small line under it</label><input class="form-control" id="oc-sub" maxlength="140" placeholder="${esc(o.sub)}" value="${esc(OCC.mode==='manual'&&OCC.id===occSel?OCC.sub:'')}"/><div class="form-hint">Leave both empty to use the built-in wording. Custom text applies in Manual mode.</div></div>
+    <div class="form-group"><label>Small line under it</label><input class="form-control" id="oc-sub" maxlength="140" placeholder="${esc(buildOcc(occSel,occVar).sub)}" value="${esc(OCC.mode==='manual'&&OCC.id===occSel?OCC.sub:'')}"/><div class="form-hint">Leave both empty to use the built-in wording. Custom text applies in Manual mode.</div></div>
     <div class="form-group"><label>Festival picture (e.g. Ganesh ji, Lakshmi, Santa, your own greeting art)</label>
       <div id="oc-img-box" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="form-hint">Loading…</span></div>
-      <div class="form-hint">Shown on both sides of the greeting banner. Use a picture you own or have the right to use. A PNG with transparent background looks best. It is resized automatically.</div></div>
+      <div class="form-hint">Shown on both sides of the greeting banner (all 10 styles of this occasion). Use a picture you own or have the right to use. A PNG with transparent background looks best. It is resized automatically.</div></div>
   </div></div>
-  <div class="admin-card"><div class="admin-card-hd"><h3>4. Auto schedule <span style="font-weight:400;font-size:12px;color:var(--muted)">(used only in “Auto by dates” mode)</span></h3></div><div class="admin-card-body">
-    <div id="oc-sched">${(OCC.sched||[]).map(occRow).join('')||'<p class="form-hint">No dates yet. Add the festivals you want, with start and end date. Festival dates change every year, so check the calendar and add the new dates once a year.</p>'}</div>
+  <div class="admin-card"><div class="admin-card-hd"><h3>5. Auto schedule <span style="font-weight:400;font-size:12px;color:var(--muted)">(used only in “Auto by dates” mode)</span></h3></div><div class="admin-card-body">
+    <div id="oc-sched">${(OCC.sched||[]).map(occRow).join('')||'<p class="form-hint">No dates yet. Add each festival with a style and its start and end date. Festival dates change every year, so check the calendar and update them once a year.</p>'}</div>
     <button class="btn btn-ghost btn-sm" onclick="occAddRow()">+ Add festival dates</button></div></div>`;
   occLoadImg();
 }
-function occRow(r,i){return `<div class="occ-sched"><div class="form-group" style="margin:0"><label>Festival</label><select class="form-control" onchange="OCC.sched[${i}].id=this.value">${occList().replace(`value="${r.id}"`,`value="${r.id}" selected`)}</select></div>
+function occRow(r,i){return `<div class="occ-sched"><div class="form-group" style="margin:0"><label>Festival</label><select class="form-control" onchange="OCC.sched[${i}].id=this.value">${occList(r.id)}</select></div>
+  <div class="form-group" style="margin:0"><label>Style</label><select class="form-control" onchange="OCC.sched[${i}].v=+this.value">${occVarList(r.v)}</select></div>
   <div class="form-group" style="margin:0"><label>Starts</label><input class="form-control" type="date" value="${esc(r.from||'')}" onchange="OCC.sched[${i}].from=this.value"></div>
   <div class="form-group" style="margin:0"><label>Ends</label><input class="form-control" type="date" value="${esc(r.to||'')}" onchange="OCC.sched[${i}].to=this.value"></div>
   <button class="btn btn-danger btn-sm occ-del" onclick="OCC.sched.splice(${i},1);admOccasion($('admin-main'))">Remove</button></div>`;}
-function occAddRow(){const t=todayIST();OCC.sched=(OCC.sched||[]).concat([{id:occSel,from:t,to:t}]);admOccasion($('admin-main'));}
-function occMode(m){OCC.mode=m;if(m==='manual')OCC.id=occSel;admOccasion($('admin-main'));}
-function occPick(id){occSel=id;if(OCC.mode==='manual')OCC.id=id;admOccasion($('admin-main'));}
+function occAddRow(){const t=todayIST();OCC.sched=(OCC.sched||[]).concat([{id:occSel,v:occVar||0,from:t,to:t}]);admOccasion($('admin-main'));}
+function occMode(m){OCC.mode=m;if(m==='manual'){OCC.id=occSel;OCC.v=occVar;}admOccasion($('admin-main'));}
+function occPick(id){occSel=id;occVar=(OCC.id===id)?(+OCC.v||0):0;if(OCC.mode==='manual'){OCC.id=id;OCC.v=occVar;}admOccasion($('admin-main'));}
+function occPickVar(i){occVar=i;if(OCC.mode==='manual'){OCC.id=occSel;OCC.v=i;}admOccasion($('admin-main'));}
 async function occLoadImg(){
   const id=occSel,box=$('oc-img-box');if(!box)return;
   if(!(id in occImgCache)){try{const d=await fbDb.collection('settings').doc('occimg_'+id).get();occImgCache[id]=d.exists?(d.data().img||''):'';}catch(e){occImgCache[id]='';}}
@@ -649,8 +660,8 @@ async function occUpload(inp){
 async function occDelImg(){if(!confirm('Remove this picture?'))return;const id=occSel;if(await run(fbDb.collection('settings').doc('occimg_'+id).delete(),'Picture removed')){occImgCache[id]='';occLoadImg();}}
 async function saveOcc(){
   const g=$('oc-greet'),sb=$('oc-sub');
-  if(OCC.mode==='manual'){OCC.id=occSel;OCC.greet=(g?.value||'').trim();OCC.sub=(sb?.value||'').trim();}
-  else{OCC.greet=OCC.greet||'';OCC.sub=OCC.sub||'';OCC.id=OCC.id||'';}
+  if(OCC.mode==='manual'){OCC.id=occSel;OCC.v=occVar||0;OCC.greet=(g?.value||'').trim();OCC.sub=(sb?.value||'').trim();}
+  else{OCC.greet=OCC.greet||'';OCC.sub=OCC.sub||'';OCC.id=OCC.id||'';OCC.v=+OCC.v||0;}
   OCC.sched=(OCC.sched||[]).filter(r=>r&&r.id&&r.from&&r.to);
   for(const r of OCC.sched){if(r.from>r.to){toast('A festival has an end date before its start date','err');return;}}
   if(OCC.mode==='auto'&&!OCC.sched.length){toast('Add at least one festival with dates, or choose Manual','err');return;}

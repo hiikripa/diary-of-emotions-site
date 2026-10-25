@@ -97,7 +97,7 @@ function buildChrome(){
 <header class="site-header" id="site-header"><div class="header-inner">
   <button class="hamburger" onclick="openMob()" aria-label="Menu"><span></span><span></span><span></span></button>
   <a class="logo" href="index.html"><span class="logo-main" id="logo-name"></span><span class="logo-sub" id="logo-tag"></span></a>
-  <nav class="main-nav">${NAV.map(([k,h,l])=>`<button class="nl${k===PAGE?' active':''}" onclick="location.href='${h}'">${l}</button>`).join('')}</nav>
+  <nav class="main-nav">${NAV.map(([k,h,l])=>`<button class="nl${k===PAGE?' active':''}" data-k="${k}" onclick="location.href='${h}'">${l}</button>`).join('')}</nav>
   <div class="nav-acts">
     <button class="icon-btn" id="acc-btn" onclick="goAccount()" title="Account" aria-label="Account"><span id="acc-dot" style="display:none;position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:#4CAF50;border:1.5px solid #fff"></span><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
     <button class="icon-btn" onclick="openCart()" title="Cart" aria-label="Cart"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="cbadge" id="cart-badge" style="display:none">0</span></button>
@@ -106,6 +106,7 @@ function buildChrome(){
 <div class="nav-ov" id="nav-ov" onclick="closeMob()"></div>
 <div class="mob-nav" id="mob-nav"><button class="mob-nav-close" onclick="closeMob()">&#x2715;</button>
   ${NAV.map(([k,h,l])=>`<button class="nl" onclick="location.href='${h}'">${l}</button>`).join('')}
+  <button class="nl" id="mob-fx" style="display:none" onclick="closeMob();toggleFx()"></button>
   <button class="nl" id="mob-install" style="display:none" onclick="closeMob();window.installApp&&installApp()">&#128242; Install App</button>
   <button class="nl" id="mob-logout" style="display:none;color:var(--danger)" onclick="closeMob();doLogout()">Log Out</button></div>
 
@@ -164,10 +165,10 @@ function buildChrome(){
 <aside class="cart-sb" id="cart-sb"><div class="cart-hd"><h3>Your Cart</h3><button class="icon-btn" onclick="closeCart()">&#x2715;</button></div>
   <div class="cart-body" id="cart-body"></div><div id="cart-ft"></div></aside>
 <nav class="tabbar" id="tabbar" aria-label="App navigation">
-  <a class="tb${PAGE==='home'?' on':''}" href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-6H9v6H5a2 2 0 01-2-2z"/></svg><span>Home</span></a>
-  <a class="tb${PAGE==='shop'?' on':''}" href="shop.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8c-1-4-6-4-6-1.5S10 8 12 8zm0 0c1-4 6-4 6-1.5S14 8 12 8z"/></svg><span>Shop</span></a>
+  <button class="tb${PAGE==='home'?' on':''}" id="tb-home" type="button" onclick="tabGo('index.html','home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-6H9v6H5a2 2 0 01-2-2z"/></svg><span>Home</span></button>
+  <button class="tb${PAGE==='shop'?' on':''}" id="tb-shop" type="button" onclick="tabGo('shop.html','shop')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8c-1-4-6-4-6-1.5S10 8 12 8zm0 0c1-4 6-4 6-1.5S14 8 12 8z"/></svg><span>Shop</span></button>
   <button class="tb" type="button" onclick="openCart()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Cart</span><i class="tb-bad" id="tb-badge" style="display:none"></i></button>
-  <button class="tb" type="button" onclick="goAccount()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Account</span></button>
+  <button class="tb" id="tb-acc" type="button" onclick="goAccount()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Account</span></button>
 </nav>
 <div class="toast" id="toast"></div>
 ${LIGHTBOX_HTML}`;
@@ -279,7 +280,7 @@ function tplFooter(){
     <div class="footer-links"><h4>Shop</h4><a href="shop.html">All Hampers</a><a href="shop.html?category=Best%20Friends">Best Friends</a><a href="contact.html">Custom Order</a></div>
     <div class="footer-links"><h4>Help</h4><a href="contact.html">Contact Us</a><a href="about.html">About Us</a><a href="policies.html">Shipping Policy</a></div>
     <div class="footer-links"><h4>Connect</h4><a href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">WhatsApp</a><a href="${esc(igUrl())}" target="_blank" rel="noopener">Instagram</a><a href="mailto:${esc(SS.email)}">Email Us</a></div>
-  </div><div class="footer-bot"><p>${txt(f.copyright)}</p><span><a href="policies.html">Privacy Policy</a> &nbsp;·&nbsp; <a style="cursor:pointer" onclick="window.installApp&&installApp()">&#128242; Install App</a></span></div></div></footer>`;
+  </div><div class="footer-bot"><p>${txt(f.copyright)}</p><span><a href="policies.html">Privacy Policy</a> &nbsp;·&nbsp; <a style="cursor:pointer" onclick="window.installApp&&installApp()">&#128242; Install App</a><span id="ft-fx-wrap"> &nbsp;·&nbsp; <a id="ft-fx" style="cursor:pointer;display:none" onclick="toggleFx()"></a></span></span></div></div></footer>`;
 }
 
 let lastMainSig = '';
@@ -298,7 +299,7 @@ function applyOccasion(){
       const o=occRes.o,g=occRes.greet||o.greet,sub=occRes.sub||o.sub,img=OCC_IMG[o.id];
       const side=img?`<img class="occ-img" src="${esc(img)}" alt="">`:`<span class="occ-em">${o.emoji}</span>`;
       const gl=(o.glyphs&&o.glyphs.length?o.glyphs:[o.emoji]).join('  ');
-      strip.style.display='block';
+      strip.style.display='block';strip.className='occ-strip occ-b'+(o.banner||1);
       strip.innerHTML=`<div class="occ-in">${side}<div class="occ-txt"><b>${txt(g)}</b><span>${txt(sub)}</span></div>${img?`<img class="occ-img occ-flip" src="${esc(img)}" alt="">`:`<span class="occ-em">${o.emoji}</span>`}</div><div class="occ-garland" aria-hidden="true"><div class="occ-track">${Array(2).fill(Array(30).fill(gl).join('   ')).map(t=>`<span>${t}</span>`).join('')}</div></div>`;
       if(!img&&!OCC_IMG['_t'+o.id]){OCC_IMG['_t'+o.id]=1;
         fbDb.collection('settings').doc('occimg_'+o.id).get().then(d=>{const v=d.exists&&d.data().img;if(v&&typeof v==='string'&&v.startsWith('data:image/')){OCC_IMG[o.id]=v;applyOccasion();}}).catch(()=>{});}
@@ -306,13 +307,15 @@ function applyOccasion(){
   }
   if(typeof FX!=='undefined'){
     FX.start(occRes?occRes.o:null);
-    let b=document.getElementById('fx-toggle');
-    if(occRes&&occRes.o.fx&&FX.hasMotion()){
-      if(!b){b=document.createElement('button');b.id='fx-toggle';b.className='fx-toggle';b.type='button';b.onclick=()=>{const on=FX.toggle();b.classList.toggle('off',!on);b.setAttribute('aria-pressed',on);toast(on?'Festive effects on':'Festive effects off','info');};document.body.appendChild(b);}
-      b.textContent='✨';b.title='Festive effects on/off';b.setAttribute('aria-label','Festive effects on/off');b.classList.toggle('off',FX.isMuted());
-    }else if(b)b.remove();
+    syncFxLinks();
   }
 }
+// Festive-effects on/off lives in the menu and footer (no floating button on the screen)
+function syncFxLinks(){
+  const show=!!(occRes&&occRes.o.fx&&occRes.o.fx.length&&typeof FX!=='undefined'&&FX.hasMotion());
+  ['mob-fx','ft-fx'].forEach(id=>{const e=document.getElementById(id);if(!e)return;e.style.display=show?'':'none';e.textContent='\u2728 Festive effects: '+(FX.isMuted()?'Off':'On');});
+}
+function toggleFx(){const on=FX.toggle();syncFxLinks();toast(on?'Festive effects on':'Festive effects off','info');}
 function renderChrome(){
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=dec(v);};
   set('logo-name',SS.name);set('logo-tag',SS.tag);
@@ -321,6 +324,7 @@ function renderChrome(){
   const ann=document.getElementById('ann-bar');ann.innerHTML=txt(SS.ann);ann.style.display=SS.ann?'block':'none';
   document.title=PAGE==='home'?dec(SS.name)+' - '+dec(SS.tag):dec(SS.name)+' | '+({shop:'Shop',about:'About',contact:'Contact',policies:'Policies'})[PAGE];
   document.getElementById('site-footer').innerHTML=tplFooter();
+  syncFxLinks();
 }
 function renderMain(force){
   const sig=JSON.stringify([CONTENT,SS.ig,SS.fb,SS.email,SS.wa]);
@@ -737,8 +741,17 @@ function showView(v){
   document.getElementById('site-footer').style.display='block';
   if(v==='account')renderAccount();
   history.replaceState(null,'',v==='main'?location.pathname+location.search:'#'+v);
+  syncNav();
   window.scrollTo(0,0);
 }
+// highlight exactly where the visitor is: Account tab on account/login/signup, otherwise the current page
+function syncNav(){
+  const main=view==='main';
+  document.querySelectorAll('.main-nav .nl').forEach(b=>b.classList.toggle('active',main&&b.dataset.k===PAGE));
+  const on=(id,f)=>{const e=document.getElementById(id);if(e)e.classList.toggle('on',!!f);};
+  on('tb-home',main&&PAGE==='home');on('tb-shop',main&&PAGE==='shop');on('tb-acc',!main);
+}
+function tabGo(h,k){if(PAGE===k){if(view!=='main')showView('main');else window.scrollTo({top:0,behavior:'smooth'});}else location.href=h;}
 async function renderAccount(){
   const el=document.getElementById('page-account');
   if(!loggedIn&&!authReady){el.innerHTML='<div class="acc-hero"><div class="container"><span class="eyebrow">My Account</span><h1 style="font-family:\'Cormorant Garamond\',serif;font-size:2.2rem;font-weight:400;color:var(--plum)">Loading…</h1></div></div>';return;}
