@@ -216,7 +216,6 @@ function tplShop(){
       <div class="cat-filters" id="cat-filters">${['All',...CATEGORIES.filter(c=>c!=='Custom')].map(c=>`<button class="cat-btn${c===shopFilter?' active':''}" onclick="filterShop('${c}',this)">${c}</button>`).join('')}</div>
       <select class="form-control" id="sort-sel" style="width:auto;min-width:170px" onchange="renderShop()"><option value="default">Sort: Featured</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="name">Name A-Z</option><option value="discount">Biggest Discount</option></select>
     </div>
-    <div id="offers-note" style="display:none;background:#fff3e0;border:1px solid #FFB74D;border-radius:10px;padding:9px 15px;margin-bottom:18px;font-size:12.5px;color:#E65100">&#9432; All promotional offers are currently paused. Showing original prices.</div>
     <div class="products-grid" id="shop-grid"></div>
     <div style="text-align:center;margin-top:44px;padding:28px;background:var(--lav-light);border-radius:var(--radius);border:1px solid var(--border)">
       <p style="font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--plum);margin-bottom:7px">${txt(s.customTitle)}</p>
