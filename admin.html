@@ -15,6 +15,17 @@
 #login-msg{display:none;background:#fdecea;color:#b71c1c;border:1px solid #f5c6cb;border-radius:9px;padding:9px 12px;font-size:12.5px;margin-bottom:12px}
 #mob-tabs{display:none;width:100%;margin-bottom:14px}
 .qe-footer .btn{white-space:nowrap}
+.occ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
+.occ-card{border:2px solid var(--border);border-radius:12px;padding:0;cursor:pointer;background:#fff;text-align:left;overflow:hidden;font:inherit;color:var(--plum)}
+.occ-card.sel{border-color:var(--plum);box-shadow:0 0 0 3px rgba(46,26,46,.12)}
+.occ-sw{height:46px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.occ-meta{padding:8px 10px 10px}.occ-meta b{display:block;font-size:12.5px;line-height:1.3}.occ-meta small{color:var(--muted);font-size:11px}
+.occ-meta a{font-size:11.5px;color:var(--rose-deep);text-decoration:underline;cursor:pointer}
+.occ-modes{display:flex;gap:8px;flex-wrap:wrap}
+.occ-modes button{flex:1;min-width:140px;padding:11px 12px;border-radius:10px;border:2px solid var(--border);background:#fff;cursor:pointer;font:inherit;font-weight:600;font-size:13px;color:var(--plum)}
+.occ-modes button.on{border-color:var(--plum);background:var(--lav-light)}
+.occ-sched{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:8px}
+@media(max-width:700px){.occ-grid{grid-template-columns:1fr 1fr;gap:8px}.occ-sw{height:38px;font-size:20px}.occ-sched{grid-template-columns:1fr 1fr}.occ-sched .occ-del{grid-column:1/-1}}
 @media(max-width:960px){
   #mob-tabs{display:block}
   .dash-two,.settings-grid{grid-template-columns:1fr!important}
@@ -51,6 +62,7 @@
       <button class="adnav-link" id="anl-reviews" onclick="showAdmin('reviews')">&#9632; Reviews</button>
       <button class="adnav-link" id="anl-pages" onclick="showAdmin('pages')">&#9632; Pages &amp; Content</button>
       <div class="adnav-lbl">Customise</div>
+      <button class="adnav-link" id="anl-occasion" onclick="showAdmin('occasion')">&#127881; Occasion Themes</button>
       <button class="adnav-link" id="anl-theme" onclick="showAdmin('theme')">&#9632; Theme &amp; Colors</button>
       <button class="adnav-link" id="anl-settings" onclick="showAdmin('settings')">&#9632; Store Settings</button>
       <button class="adnav-link" id="anl-backup" onclick="showAdmin('backup')">&#9632; Backup &amp; Restore</button>
@@ -61,7 +73,7 @@
     </aside>
     <main class="admin-main">
       <select class="form-control" id="mob-tabs" onchange="showAdmin(this.value)">
-        <option value="dash">Dashboard</option><option value="products">Products</option><option value="inventory">Stock &amp; Inventory</option><option value="offers">Offers &amp; Discounts</option><option value="bulk">Bulk Discount Tool</option><option value="orders">Orders</option><option value="reviews">Reviews</option><option value="pages">Pages &amp; Content</option><option value="theme">Theme &amp; Colors</option><option value="settings">Store Settings</option><option value="backup">Backup &amp; Restore</option>
+        <option value="dash">Dashboard</option><option value="products">Products</option><option value="inventory">Stock &amp; Inventory</option><option value="offers">Offers &amp; Discounts</option><option value="bulk">Bulk Discount Tool</option><option value="orders">Orders</option><option value="reviews">Reviews</option><option value="pages">Pages &amp; Content</option><option value="occasion">Occasion Themes</option><option value="theme">Theme &amp; Colors</option><option value="settings">Store Settings</option><option value="backup">Backup &amp; Restore</option>
       </select>
       <div id="perm-banner" style="display:none;background:#fdecea;border:1px solid #f5c6cb;color:#b71c1c;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;line-height:1.55"><strong>⚠ Firebase is refusing to read/write data (permission denied).</strong><br>Fix: Firebase Console → Firestore Database → <strong>Rules</strong> → paste the full contents of <code>firestore.rules</code> → <strong>Publish</strong>. Then refresh this page and sign in again with the owner account.</div>
       <div id="admin-main"></div>
@@ -168,6 +180,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="common.js"></script>
+<script src="themes.js"></script>
 <script>
 document.getElementById('lb-mount').innerHTML = LIGHTBOX_HTML;
 /* ===================== Diary of Emotions - Admin panel =====================
@@ -223,7 +236,7 @@ function startLive(){
   unsubs.push(fbDb.collection('orders').orderBy('createdAt','desc').limit(500).onSnapshot(s=>{ORDERS=s.docs.map(d=>({id:d.id,...d.data()}));loaded.orders=true;{const n=ORDERS.filter(o=>o.status==='pending_confirmation').length;const l=$('anl-orders');if(l)l.innerHTML='&#9632; Orders'+(n?` <span class="badge badge-low" style="margin-left:6px">${n} new</span>`:'');}refresh();},err('orders')));
   unsubs.push(fbDb.collection('reviews').orderBy('createdAt','desc').limit(500).onSnapshot(s=>{REVIEWS=s.docs.map(d=>({id:d.id,...d.data()}));loaded.reviews=true;refresh();},err('reviews')));
   unsubs.push(fbDb.collection('settings').doc('storefront').onSnapshot(s=>{
-    if(s.exists){const d=s.data();if(typeof d.offersOn==='boolean')offersOn=d.offersOn;if(d.SS)SS={...DEFAULT_SS,...d.SS};if(d.TC)TC={...DEFAULT_TC,...d.TC};}
+    if(s.exists){const d=s.data();if(typeof d.offersOn==='boolean')offersOn=d.offersOn;if(d.SS)SS={...DEFAULT_SS,...d.SS};if(d.TC)TC={...DEFAULT_TC,...d.TC};if(d.occ&&typeof d.occ==='object')OCC={...OCC,...d.occ,sched:Array.isArray(d.occ.sched)?d.occ.sched:[]};}
     applyTheme();loaded.settings=true;refresh();
   },err('settings')));
   unsubs.push(fbDb.collection('settings').doc('content').onSnapshot(s=>{
@@ -247,7 +260,7 @@ async function run(promise,okMsg){
 }
 function productData(p){const o=clone(p);delete o.id;return o;}
 function saveProductDoc(p){return fbDb.collection('products').doc(String(p.id)).set(productData(p));}
-function saveStore(){return fbDb.collection('settings').doc('storefront').set({offersOn,SS,TC,updatedAt:TS()},{merge:true});}
+function saveStore(){return fbDb.collection('settings').doc('storefront').set({offersOn,SS,TC,occ:OCC,updatedAt:TS()},{merge:true});}
 function saveContent(){return fbDb.collection('settings').doc('content').set({content:CONTENT,updatedAt:TS()});}
 function nextProductId(){return Math.max(0,...PRODUCTS.map(p=>p.id))+1;}
 function fdate(ts,time){if(!ts||!ts.seconds)return '-';const d=new Date(ts.seconds*1000);return d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+(time?' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}):'');}
@@ -277,7 +290,7 @@ function showAdmin(t,quiet){
   if($('mob-tabs'))$('mob-tabs').value=t;
   const M=$('admin-main');
   const keepScroll=quiet?window.scrollY:0;
-  ({dash:admDash,products:admProducts,inventory:admInventory,offers:admOffers,bulk:admBulk,orders:admOrders,reviews:admReviews,pages:admPages,theme:admTheme,settings:admSettings,backup:admBackup})[t]?.(M);
+  ({dash:admDash,products:admProducts,inventory:admInventory,offers:admOffers,bulk:admBulk,orders:admOrders,reviews:admReviews,pages:admPages,theme:admTheme,occasion:admOccasion,settings:admSettings,backup:admBackup})[t]?.(M);
   if(quiet)window.scrollTo(0,keepScroll);
 }
 const STAT_PILL = {pending_confirmation:'badge-low',confirmed:'badge-new',packed:'badge-new',shipped:'badge-new',delivered:'badge-ok',cancelled:'badge-sold'};
@@ -574,6 +587,75 @@ function admTheme(M){
   <div class="admin-card"><div class="admin-card-hd"><h3>Layout</h3></div><div class="admin-card-body"><div class="form-group" style="max-width:260px"><label>Card corner radius</label>
     <select class="form-control" onchange="SS.radius=this.value;applyTheme()">${[['8px','8px · Sharp'],['12px','12px · Subtle'],['16px','16px · Default'],['20px','20px · Rounded'],['24px','24px · Soft']].map(([v,l])=>`<option value="${v}" ${SS.radius===v?'selected':''}>${l}</option>`).join('')}</select></div></div></div>`;
 }
+// ------------------------------------------------------------------ occasion themes
+let OCC={mode:'off',id:'',greet:'',sub:'',sched:[]},occSel='',occImgCache={};
+function occList(){return OCCASIONS.map(o=>`<option value="${o.id}">${o.emoji} ${esc(o.name)}</option>`).join('');}
+function admOccasion(M){
+  if(!occSel)occSel=OCC.id||'diwali';
+  const o=OCC_BY_ID[occSel],sw=c=>`linear-gradient(135deg,${c.rose},${c.lav})`;
+  M.innerHTML=`<div class="admin-topbar"><h1 class="admin-page-title">Occasion Themes</h1><button class="btn btn-primary btn-sm" onclick="saveOcc()">✓ Save &amp; Publish</button></div>
+  <div class="alert-banner alert-info"><span>🎉</span><span>Pick a festival and the whole store changes: colours, a greeting banner and animated effects (gulal, fireworks, petals, snow…). Customers can tap the screen for a burst. Use <strong>Preview</strong> to see it first - nothing goes live until you press <strong>Save &amp; Publish</strong>.</span></div>
+  <div class="admin-card" style="margin:16px 0"><div class="admin-card-hd"><h3>1. How should themes run?</h3></div><div class="admin-card-body">
+    <div class="occ-modes">
+      <button class="${OCC.mode==='off'||!OCC.mode?'on':''}" onclick="occMode('off')">⏸ Off<br><small style="font-weight:400">Normal store theme</small></button>
+      <button class="${OCC.mode==='manual'?'on':''}" onclick="occMode('manual')">👆 Manual<br><small style="font-weight:400">I switch it on/off myself</small></button>
+      <button class="${OCC.mode==='auto'?'on':''}" onclick="occMode('auto')">📅 Auto by dates<br><small style="font-weight:400">Set start &amp; end once</small></button></div></div></div>
+  <div class="admin-card" style="margin-bottom:16px"><div class="admin-card-hd"><h3>2. Choose a theme (${OCCASIONS.length})</h3></div><div class="admin-card-body"><div class="occ-grid">
+    ${OCCASIONS.map(x=>`<button class="occ-card ${x.id===occSel?'sel':''}" onclick="occPick('${x.id}')"><div class="occ-sw" style="background:${sw(x.colors)}">${x.emoji}</div><div class="occ-meta"><b>${esc(x.name)}</b><small>${esc(x.when)}</small><br><a onclick="event.stopPropagation();window.open('index.html?occ=${x.id}','_blank')">▶ Preview</a></div></button>`).join('')}</div></div></div>
+  <div class="admin-card" style="margin-bottom:16px"><div class="admin-card-hd"><h3>3. Customise “${esc(o.name)}” <span style="font-weight:400;font-size:12px;color:var(--muted)">(optional)</span></h3></div><div class="admin-card-body">
+    <div class="form-group"><label>Greeting (big line)</label><input class="form-control" id="oc-greet" maxlength="90" placeholder="${esc(o.greet)}" value="${esc(OCC.mode==='manual'&&OCC.id===occSel?OCC.greet:'')}"/></div>
+    <div class="form-group"><label>Small line under it</label><input class="form-control" id="oc-sub" maxlength="140" placeholder="${esc(o.sub)}" value="${esc(OCC.mode==='manual'&&OCC.id===occSel?OCC.sub:'')}"/><div class="form-hint">Leave both empty to use the built-in wording. Custom text applies in Manual mode.</div></div>
+    <div class="form-group"><label>Festival picture (e.g. Ganesh ji, Lakshmi, Santa, your own greeting art)</label>
+      <div id="oc-img-box" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="form-hint">Loading…</span></div>
+      <div class="form-hint">Shown on both sides of the greeting banner. Use a picture you own or have the right to use. A PNG with transparent background looks best. It is resized automatically.</div></div>
+  </div></div>
+  <div class="admin-card"><div class="admin-card-hd"><h3>4. Auto schedule <span style="font-weight:400;font-size:12px;color:var(--muted)">(used only in “Auto by dates” mode)</span></h3></div><div class="admin-card-body">
+    <div id="oc-sched">${(OCC.sched||[]).map(occRow).join('')||'<p class="form-hint">No dates yet. Add the festivals you want, with start and end date. Festival dates change every year, so check the calendar and add the new dates once a year.</p>'}</div>
+    <button class="btn btn-ghost btn-sm" onclick="occAddRow()">+ Add festival dates</button></div></div>`;
+  occLoadImg();
+}
+function occRow(r,i){return `<div class="occ-sched"><div class="form-group" style="margin:0"><label>Festival</label><select class="form-control" onchange="OCC.sched[${i}].id=this.value">${occList().replace(`value="${r.id}"`,`value="${r.id}" selected`)}</select></div>
+  <div class="form-group" style="margin:0"><label>Starts</label><input class="form-control" type="date" value="${esc(r.from||'')}" onchange="OCC.sched[${i}].from=this.value"></div>
+  <div class="form-group" style="margin:0"><label>Ends</label><input class="form-control" type="date" value="${esc(r.to||'')}" onchange="OCC.sched[${i}].to=this.value"></div>
+  <button class="btn btn-danger btn-sm occ-del" onclick="OCC.sched.splice(${i},1);admOccasion($('admin-main'))">Remove</button></div>`;}
+function occAddRow(){const t=todayIST();OCC.sched=(OCC.sched||[]).concat([{id:occSel,from:t,to:t}]);admOccasion($('admin-main'));}
+function occMode(m){OCC.mode=m;if(m==='manual')OCC.id=occSel;admOccasion($('admin-main'));}
+function occPick(id){occSel=id;if(OCC.mode==='manual')OCC.id=id;admOccasion($('admin-main'));}
+async function occLoadImg(){
+  const id=occSel,box=$('oc-img-box');if(!box)return;
+  if(!(id in occImgCache)){try{const d=await fbDb.collection('settings').doc('occimg_'+id).get();occImgCache[id]=d.exists?(d.data().img||''):'';}catch(e){occImgCache[id]='';}}
+  if(occSel!==id||!$('oc-img-box'))return;
+  const v=occImgCache[id];
+  $('oc-img-box').innerHTML=(v?`<img src="${esc(v)}" style="height:70px;max-width:140px;object-fit:contain;border:1px solid var(--border);border-radius:8px;background:#fff">`:'<span class="form-hint">No picture - the festival emoji is shown instead.</span>')
+   +`<label class="btn btn-ghost btn-sm" style="cursor:pointer;margin:0">${v?'Replace':'Upload'} picture<input type="file" accept="image/*" style="display:none" onchange="occUpload(this)"></label>`
+   +(v?`<button class="btn btn-danger btn-sm" onclick="occDelImg()">Remove</button>`:'');
+}
+function occCompress(file){
+  return new Promise((res,rej)=>{const fr=new FileReader();fr.onerror=()=>rej(new Error('read failed'));
+    fr.onload=()=>{const im=new Image();im.onerror=()=>rej(new Error('not an image'));
+      im.onload=()=>{const M=420,k=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+        const x=c.getContext('2d');x.drawImage(im,0,0,c.width,c.height);
+        let out=c.toDataURL('image/webp',.85);if(!out.startsWith('data:image/webp'))out=c.toDataURL('image/png');
+        if(out.length>420000){const j=document.createElement('canvas');j.width=c.width;j.height=c.height;const y=j.getContext('2d');y.fillStyle='#fff';y.fillRect(0,0,j.width,j.height);y.drawImage(c,0,0);out=j.toDataURL('image/jpeg',.8);}
+        res(out);};im.src=fr.result;};fr.readAsDataURL(file);});
+}
+async function occUpload(inp){
+  const f=inp.files[0];inp.value='';if(!f)return;const id=occSel;
+  try{const img=await occCompress(f);
+    if(img.length>700000){toast('Picture is too large - please use a smaller one','err');return;}
+    if(await run(fbDb.collection('settings').doc('occimg_'+id).set({img,updatedAt:TS()}),'Picture saved')){occImgCache[id]=img;occLoadImg();}
+  }catch(e){toast('Could not read that picture','err');}
+}
+async function occDelImg(){if(!confirm('Remove this picture?'))return;const id=occSel;if(await run(fbDb.collection('settings').doc('occimg_'+id).delete(),'Picture removed')){occImgCache[id]='';occLoadImg();}}
+async function saveOcc(){
+  const g=$('oc-greet'),sb=$('oc-sub');
+  if(OCC.mode==='manual'){OCC.id=occSel;OCC.greet=(g?.value||'').trim();OCC.sub=(sb?.value||'').trim();}
+  else{OCC.greet=OCC.greet||'';OCC.sub=OCC.sub||'';OCC.id=OCC.id||'';}
+  OCC.sched=(OCC.sched||[]).filter(r=>r&&r.id&&r.from&&r.to);
+  for(const r of OCC.sched){if(r.from>r.to){toast('A festival has an end date before its start date','err');return;}}
+  if(OCC.mode==='auto'&&!OCC.sched.length){toast('Add at least one festival with dates, or choose Manual','err');return;}
+  await run(saveStore(),OCC.mode==='off'?'Themes are OFF - normal store theme is live':'Occasion theme published to every page');
+}
 function updColor(k,v){TC[k]=v;const e=$('cc-'+k);if(e)e.textContent=v;applyTheme();}
 function applyPreset(p){Object.assign(TC,PRESETS[p]);applyTheme();admTheme($('admin-main'));toast('Preview only - press Save Theme to publish','info');}
 async function saveTheme(){await run(saveStore(),'Theme published to all pages');}
@@ -818,7 +900,14 @@ async function restoreBackup(){
   if(!confirm(`Restore ${total} items from the backup made on ${String(data.createdAt||'').slice(0,10)}?\nExisting items with the same ID will be overwritten.`))return;
   try{
     let ops=[];cols.forEach(c=>Object.entries(data.collections[c]||{}).forEach(([id,doc])=>ops.push([c,id,unser(doc)])));
-    for(let i=0;i<ops.length;i+=400){const b=fbDb.batch();ops.slice(i,i+400).forEach(([c,id,doc])=>b.set(fbDb.collection(c).doc(id),doc));await b.commit();}
+    // Firestore batches allow max 500 writes / ~10 MB, and product photos are large - so split by count AND size.
+    let b=fbDb.batch(),n=0,bytes=0;
+    for(const [c,id,doc] of ops){
+      const sz=JSON.stringify(doc).length;
+      if(n&&(n>=300||bytes+sz>6000000)){await b.commit();b=fbDb.batch();n=0;bytes=0;}
+      b.set(fbDb.collection(c).doc(id),doc);n++;bytes+=sz;
+    }
+    if(n)await b.commit();
     toast(`Restored ${ops.length} items. Refresh the store pages to see them.`,'ok');
   }catch(e){console.error(e);toast('Restore failed: '+(e.code||e.message),'err');}
 }

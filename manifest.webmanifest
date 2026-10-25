@@ -1,0 +1,24 @@
+{
+  "name": "Diary of Emotions",
+  "short_name": "Diary of Emotions",
+  "description": "Aesthetic gift hampers, delivered across India.",
+  "id": "/",
+  "start_url": "index.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDF8F4",
+  "theme_color": "#C9828A",
+  "lang": "en-IN",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Shop", "url": "shop.html", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+    {"name": "Contact", "url": "contact.html", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]}
+  ]
+}
